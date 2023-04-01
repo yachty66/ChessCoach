@@ -3,41 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chesscoach</title>
+    <title>Chess Games</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      #games {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
-      .container {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 1rem;
+      #games button {
+        width: 300px; /* Adjust the width according to your needs */
+        height: 40px; /* Adjust the height according to your needs */
+        margin-bottom: 10px;
         text-align: center;
-      }
-      input {
-        display: block;
-        margin: 0.5rem auto;
       }
     </style>
   </head>
   <body>
-    
-    <div class="container">
-      <h1>Welcome to Chesscoach!</h1>
-      <form id="start-form">
-        <input type="text" id="api-key" placeholder="OpenAI Key" />
-        <select id="model-selector">
-          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-          <option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
-          <option value="gpt-4">gpt-4</option>
-          <option value="gpt-4-0314">gpt-4-0314</option>
-          <option value="gpt-4-32k">gpt-4-32k</option>
-          <option value="gpt-4-32k-0314">gpt-4-32k-0314</option>
-        </select>
-        <input type="text" id="username" placeholder="Username chess.com" />
-        <button type="submit" id="submit">Submit</button>
-      </form>
-    </div>
-    <script src="{{url_for('static', filename='js/check_form.js')}}"></script>
+    <h1>Chess Games</h1>
+    <div id="games"></div>
+
+    <script>
+      function loadGames() {
+        $.getJSON("/get_games", function (data) {
+          data.forEach(function (game, index) {
+            let btn = $("<button>")
+              .text(
+                "White: " +
+                  game.White +
+                  " | Black: " +
+                  game.Black +
+                  " | Result: " +
+                  game.Result
+              )
+              .click(function () {
+                sessionStorage.setItem(
+                  "moves",
+                  JSON.stringify(game.Moves.split(" "))
+                );
+                window.location.href = "/coach";
+              });
+            $("#games").append(btn);
+          });
+        });
+      }
+      $(document).ready(function () {
+        loadGames();
+      });
+    </script>
   </body>
 </html>

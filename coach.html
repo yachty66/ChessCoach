@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chess Game</h1>
+    <div id="move-list"></div>
+    <button id="next-move">Next Move</button>
+
+    <script>
+        let moves = [];
+        let currentMove = 0;
+
+        function showMove(moveIndex) {
+            if (moveIndex < moves.length) {
+                $('#move-list').append('<p>' + (moveIndex + 1) + '. ' + moves[moveIndex] + '</p>');
+                currentMove++;
+            }
+        }
+
+        $(document).ready(function() {
+            moves = JSON.parse(sessionStorage.getItem('moves'));
+
+            $('#next-move').click(function() {
+                showMove(currentMove);
+            });
+
+            showMove(currentMove);
+        });
+    </script>
+</body>
+</html>

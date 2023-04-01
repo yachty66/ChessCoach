@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chesscoach</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 1rem;
+        text-align: center;
+      }
+      input {
+        display: block;
+        margin: 0.5rem auto;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+      <h1>Welcome to Chesscoach!</h1>
+
+      <form id="start-form">
+        <input type="text" id="api-key" placeholder="OpenAI Key" />
+        <select id="model-selector">
+          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+          <option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
+          <option value="gpt-4">gpt-4</option>
+          <option value="gpt-4-0314">gpt-4-0314</option>
+          <option value="gpt-4-32k">gpt-4-32k</option>
+          <option value="gpt-4-32k-0314">gpt-4-32k-0314</option>
+        </select>
+        <input type="text" id="username" placeholder="Username chess.com" />
+        <button type="submit" id="submit">Submit</button>
+      </form>
+    </div>
+    <script src="{{url_for('static', filename='js/check_form.js')}}"></script>
+  </body>
+</html>
