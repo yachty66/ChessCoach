@@ -37,10 +37,7 @@
                   game.Result
               )
               .click(function () {
-                sessionStorage.setItem(
-                  "moves",
-                  JSON.stringify(game.Moves.split(" "))
-                );
+                sessionStorage.setItem("moves", JSON.stringify(game.Moves));
                 window.location.href = "/coach";
               });
             $("#games").append(btn);

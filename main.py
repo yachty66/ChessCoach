@@ -36,27 +36,33 @@ import re
 def get_games():
     response = get_player_games_by_month_pgn("homooecochessicus", 2023, 3)
     response_data = response.json["pgn"]["pgn"]
-    #print only the first 5 games
-    #print(response_data[:5000])
-    #print(response_data)
 
     games = []
     game_pattern = re.compile(r'\[Event .+?}\s(?:\d-\d|1/2-1/2)', re.DOTALL)
     tag_pattern = re.compile(r'\[(\w+)\s"([^"]+)"\]')
-    move_pattern = re.compile(r'\d+\.\s+\S+\s+(?:\S+\s+)?')
+    move_pattern = re.compile(r'\d+\.\s+\S+(?:\s+\S+)?')
 
     for game_text in game_pattern.findall(response_data):
-        game = {}
-        for tag, value in tag_pattern.findall(game_text):
-            if tag in ["UTCTime", "White", "Black", "Result"]:
-                game[tag] = value
-        moves = " ".join(move_pattern.findall(game_text)).strip()
-        if moves:
-            game["Moves"] = moves
-        games.append(game)
-    print(games)
+        if game_text:
+            game = {}
+            for tag, value in tag_pattern.findall(game_text):
+                if tag in ["UTCTime", "White", "Black", "Result"]:
+                    game[tag] = value
+            moves = move_pattern.findall(game_text)
 
+            if moves:
+                moves_dict = {}
+                for move in moves:
+                    move_num, white_move, black_move = re.match(r'(\d+)\.\s+(\S+)(?:\s+(\S+))?', move.strip()).groups()
+                    moves_dict[f"{move_num}."] = f"{white_move} {black_move}" if black_move and not black_move.startswith('{') else white_move
+                game["Moves"] = moves_dict
+
+            games.append(game)
+    print(games)
     return jsonify(games)
+
+
+
 
 
 

@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chess Game</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Chess Game</h1>
+    <p>
+      Hey! I am your chesscoach and I go with you through every move which you
+      made. Starting with the first move:
+    </p>
     <div id="move-list"></div>
     <button id="next-move">Next Move</button>
 
     <script>
-        let moves = [];
-        let currentMove = 0;
+      let moves = {};
+      let currentMove = 1;
 
-        function showMove(moveIndex) {
-            if (moveIndex < moves.length) {
-                $('#move-list').append('<p>' + (moveIndex + 1) + '. ' + moves[moveIndex] + '</p>');
-                currentMove++;
-            }
+      function showMove(moveIndex) {
+        let moveKey = moveIndex + ".";
+        if (moveKey in moves) {
+          let move = moves[moveKey];
+          $("#move-list").append("<p>" + moveKey + " " + move + "</p>");
+          currentMove++;
         }
+      }
 
-        $(document).ready(function() {
-            moves = JSON.parse(sessionStorage.getItem('moves'));
-
-            $('#next-move').click(function() {
-                showMove(currentMove);
-            });
-
-            showMove(currentMove);
+      $(document).ready(function () {
+        moves = JSON.parse(sessionStorage.getItem("moves")) || {};
+        //somethigng goes wrong here and i am not able to see the moves from the user
+        console.log(moves);
+        console.log(moves);
+        $("#next-move").click(function () {
+          showMove(currentMove);
         });
+
+        showMove(currentMove);
+      });
     </script>
-</body>
+  </body>
 </html>
