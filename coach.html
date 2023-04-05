@@ -19,21 +19,62 @@
       let moves = {};
       let currentMove = 1;
 
+      let playerColor = sessionStorage.getItem("color") || "white";
+      console.log(playerColor);
+
       function showMove(moveIndex) {
         let moveKey = moveIndex + ".";
         if (moveKey in moves) {
           let move = moves[moveKey];
-          $("#move-list").append("<p>" + moveKey + " " + move + "</p>");
-          currentMove++;
+
+          if (
+            (playerColor === "white" && moveIndex % 2 === 1) ||
+            (playerColor === "black" && moveIndex % 2 === 0)
+          ) {
+            $("#next-move").prop("disabled", true); // Disable the button
+
+            $.ajax({
+              url: "/analyze_move",
+              method: "POST",
+              contentType: "application/json",
+              data: JSON.stringify({
+                move: move,
+                game_state: moves,
+              }),
+            })
+              .done(function (response) {
+                $("#move-list").append(
+                  "<p>" + moveKey + " " + response.analysis + "</p>"
+                );
+                currentMove++;
+              })
+              .fail(function () {
+                console.error(
+                  "Error while sending move and game state to the server"
+                );
+              })
+              .always(function () {
+                $("#next-move").prop("disabled", false); // Enable the button
+
+                // Check if there are any more moves to show
+                if (!(currentMove + "." in moves)) {
+                  // Remove the "Next Move" button if no more moves
+                  $("#next-move").remove();
+                }
+              });
+          } else {
+            // If the condition is not met, proceed to the next move
+            currentMove++;
+            showMove(currentMove);
+          }
         }
       }
 
       $(document).ready(function () {
         moves = JSON.parse(sessionStorage.getItem("moves")) || {};
         //somethigng goes wrong here and i am not able to see the moves from the user
-        console.log(moves);
-        console.log(moves);
         $("#next-move").click(function () {
+          //here i want to send the current move and the whole state of the game to the server. the response is what i want to show
           showMove(currentMove);
         });
 

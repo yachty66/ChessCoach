@@ -17,6 +17,11 @@ People can really use this application for getting game annotations
 
 ## Notes
 
+
+its all about the demo later. i need to get it working until 8pm. lets make real estate cool again. 
+
+how does the product look like? 
+
 - [x] create sketches for the workflow 
     - [x] start site
     - [x] displaying games side
@@ -24,10 +29,13 @@ People can really use this application for getting game annotations
     - [x] end of game side 
 - [x] add select button with different models 
 - [x] on click of submit check if key is correct otherise return wrong key
-- [ ] in testfile, try to get all games from my username 
-- [ ] on click of submit check if username with game exists otherwise return no games found
-- [ ] if submit was success display all games of user  
-- [ ] setup a deployment pipeline to gcp for testing in realtime 
+- [ ] make sure there is only one response 
+- [ ] shorten response 
+
+
+
+- [ ] create a file with a prompt
+- [ ] 
 
 Do i need a choose model button? yes.
 

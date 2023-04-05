@@ -38,6 +38,7 @@
               )
               .click(function () {
                 sessionStorage.setItem("moves", JSON.stringify(game.Moves));
+                sessionStorage.setItem("color", game.White === "homooecochessicus" ? "white" : "black");
                 window.location.href = "/coach";
               });
             $("#games").append(btn);
